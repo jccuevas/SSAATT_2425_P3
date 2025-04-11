@@ -1,0 +1,181 @@
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    margin: 0 auto;
+    width: 80%;
+}
+
+header{
+    background-color:#006D38;
+    padding: 0.5em;
+}
+
+#main_header{
+    color: white;
+    margin: 0;
+    font-size: 3em;
+
+}
+
+main{
+    background-color: rgb(250, 247, 234);
+    padding: 5px;
+    overflow: auto;
+}
+section{
+    display: flex;
+
+}
+
+section div{
+    flex: 4;
+}
+
+section h2{
+    padding: 0.2em;
+    font-style: italic;
+}
+
+
+aside{
+    box-shadow: inset 5px 5px 5px 0px rgba(0,0,0,0.75);
+    flex:2;
+    text-align: justify;
+    padding: 1em;
+    background-color: #006D38;
+    color: white;
+    
+}
+aside div{
+    display: flex;
+    justify-content: center;
+}
+
+
+footer{
+    background-color: #006D38;
+    color: white;
+    padding: 1em;
+    font-size: 0.8em;
+
+}
+
+footer p::first-letter{
+    font-size: 2em;
+}
+
+nav{
+    position: relative;
+    
+}
+
+#main_nav{
+    background-color:#898A8D;
+    display: flex;
+    justify-content: space-between;
+    padding-inline-start: 0;
+    margin-inline-start: 0;
+    margin-block-start: 0;
+    margin-bottom: 0;
+    
+    
+
+}
+
+li.nav{
+    background-color: #898A8D;
+    font-size: 1.5em;
+    display: inline-block;
+    list-style: none;
+    width: 100%;
+    
+}
+
+li.nav:hover{
+    background-color: #231F20;
+    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
+}
+
+
+#main_nav a{
+    display: inline-block;
+    width: 100%;
+    color:white;
+    text-decoration: none;
+    padding-left: 0.2em;
+}
+
+form{
+    background-color: aliceblue;
+    padding: 1em;
+    margin: 1em;
+    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
+  
+}
+
+fieldset{
+    margin: 0 auto;
+    width: 60%;
+}
+label{
+    display: block;
+    margin-left: 1em;
+    margin-top: 0.5em;
+}
+input,textarea{
+    display: inline-block;
+    width: 80%;
+    display: block;
+    padding: 0.2em;
+    border-radius: 2em;
+    height: 2em;
+    
+}
+
+textarea{
+    height: auto;
+}
+
+
+
+input:invalid{
+    outline: 2px solid red;
+    color: red;
+}
+
+input[type="submit"]{
+    display: inline-block;
+    margin-top:0.5em;
+    width: 50%;
+}
+
+section.hidden,#main_nav li.hidden{
+    display: none;
+
+}
+
+.activeMenu{
+    border-left: 0.5em solid rgb(2, 255, 23);
+}
+
+li.post{
+    overflow: auto;
+    list-style: none;
+    
+    margin-bottom: 0.5em;
+    margin-right: 0.5em;
+    
+
+}
+
+li.post div{
+    background-color: rgb(216, 128, 13);
+    width: 60%;
+    float: left;
+    padding: 0.5em;
+    border-radius: 0.5em;
+}
+
+li.post button{
+    float: right;
+    width: 30%;
+}

@@ -1,0 +1,24 @@
+{
+  "name": "practica3",
+  "version": "1.0.0",
+  "description": "Práctica 3 de SSAATT curso 2024/2025",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Node.js",
+    "HTTP",
+    "REST",
+    "MongoDB",
+    "Express"
+  ],
+  "author": "Juan Carlos Cuevas Martínez",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongodb": "^6.15.0",
+    "mustache": "^4.2.0",
+    "mustache-express": "^1.3.2"
+  }
+}

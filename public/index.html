@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <!-- Juan Carlos Cuevas Martínez
+     Curso 2024/2025 -->
+  <head>
+    <title>Práctica 1</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="estilos.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <header><h1 id="main_header">Blog de la asignatura SSAATT</h1></header>
+    <nav>
+      <ul id="main_nav">
+        <li class="nav activeMenu" id="menu-1"><a href="#" onclick="showSection('1')">Inicio</a></li>
+        <li class="nav" id="menu-2"><a href="#" onclick="showSection('2')">Registro</a></li>
+        <li class="nav hidden" id="menu-3"><a href="#" onclick="showSection('3')">Listar</a></li>
+        <li class="nav hidden" id="menu-4"><a href="#" onclick="showSection('4')">Nueva</a></li>
+        <li class="nav" id="menu-5"><a href="#" onclick="showSection('5')">Acerca de...</a></li>
+      </ul>
+    </nav>
+    <main>
+      <section id="section-1">
+        <div>
+          <h2>Inicio</h2>
+          <form name="inicio" onsubmit="doLogin(event)">
+            <fieldset>
+              <legend>Autenticación</legend>
+              <label for="inicio_user"></label>
+              <input
+                name="user"
+                type="text"
+                id="inicio_user"
+                minlength="4"
+                maxlength="16"
+                placeholder="Escriba su usuario"
+                value="usuario"
+                required
+              />
+              <label for="inicio_pass"></label>
+              <input
+                name="password"
+                type="password"
+                id="inicio_pass"
+                minlength="4"
+                maxlength="16"
+                value="12345"
+                required
+              />
+              <input type="submit" value="Entrar" />
+            </fieldset>
+            
+          </form>
+        </div>
+        <aside>
+          <h3>Inicio</h3>
+          <p>Introduzca sus credenciales de acceso.</p>
+        </aside>
+      </section>
+      <section id="section-2" class="hidden">
+        <div>
+          <h2>Registro de usuario</h2>
+          <form name="register" onsubmit="alert('creando...')">
+            <fieldset>
+              <legend>Datos de contacto</legend>
+              <label for="user">Usuario:</label>
+              <input
+                type="text"
+                id="user"
+                name="user"
+                minlength="4"
+                maxlength="16"
+                required
+              />
+              <label for="email">Correo electrónico:</label>
+              <input type="email" name="email" id="email" required />
+              <label for="name">Nombre:</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                maxlength="32"
+                required
+              />
+              <label for="surname">Apellidos:</label>
+              <input type="text" id="surname" name="surname" maxlength="32" />
+            </fieldset>
+            <fieldset>
+              <legend>Seguridad</legend>
+              <label for="password">Clave:</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                minlength="4"
+                maxlength="16"
+                required
+              />
+              <label for="password-check">Clave:</label>
+              <input
+                type="password"
+                id="password-check"
+                name="password-check"
+                minlength="4"
+                maxlength="16"
+                required
+              />
+              <input type="submit" value="Enviar" />
+            </fieldset>
+          </form>
+        </div>
+        <aside>
+          <h3>Registrar usuario</h3>
+          <p>Introduzca sus datos perosonales para registrarse en el blog.</p>
+        </aside>
+      </section>
+      <section id="section-3" class="hidden">
+        <div>
+          <h2>Listar entradas</h2>
+          <button id="downloadEntries" onclick="getPosts()">Descargar</button>
+          <ul id="entries"></ul>
+        </div>
+        <aside>
+          <h3>Listar entradas</h3>
+          <p>Pulse en el botón para descargar todas las entradas de su blog.</p>
+        </aside>
+      </section>
+
+      <section id="section-4" class="hidden">
+        <div>
+          <h2>Nueva entrada</h2>
+
+          <form name="post" onsubmit="newBlogPost(event)">
+            <label for="postTitle">Título</label>
+            <input
+              name="title"
+              type="text"
+              id="postTitle"
+              maxlength="32"
+              minlength="4"
+              required
+            />
+            <label for="postDate">Fecha</label>
+            <input name="date" type="date" id="postDate" required >
+            <label for="postComment">Comentario</label>
+            <textarea
+              name="comment"
+              id="postComment"
+              cols="25"
+              rows="10"
+            ></textarea>
+            <input type="submit" value="Nueva">
+          </form>
+        </div>
+        <aside>
+          <h3>Listar entradas</h3>
+          <p>Pulse en el botón para descargar todas las entradas de su blog.</p>
+        </aside>
+      </section>
+      <section id="section-5" class="hidden">
+        <div>
+          <h2>Acerca de...</h2>
+          <p>Esta web permite publica entradas en eun blog</p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <h3>Juan Carlos Cuevas Martínez</h3>
+      <p>Servicios y aplicaciones telemáticas</p>
+      <ul>
+        <li>Grado en Ingeniería de Tecnologías de Telecomunicación.</li>
+        <li>Grado en Ingeniería Telemática</li>
+      </ul>
+      <p>Curso 2024/2025</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
