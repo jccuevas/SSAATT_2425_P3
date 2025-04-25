@@ -1,4 +1,15 @@
+header{
+    background-color: blue;
+    color:white;
+}
+
 .mustache{
     list-style: none;
     font-size: large;
+}
+
+.mustache li{
+    background-color: lightblue;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
 }
