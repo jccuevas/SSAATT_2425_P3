@@ -18,6 +18,7 @@ const Mustache = require("mustache"); //Módulo para el motor de plantilla Musta
 const mustacheExpress = require("mustache-express"); //Módulo para el motor de plantilla Mustache / Module for the template engine Mustache
 const dns = require("node:dns"); //Módulo para emplear el servicio DNS / Module for DNS service
 const os = require("node:os"); //Módulo de información relativa al sistema operativo y el host / Module to get OS information
+const { ObjectId } = require("mongodb");// Se importan los ObjectId de MongoDB para poder usarlos en la práctica / ObjectId from MongoDB to be used in the practice
 
 const app = express(); //Instancia de Express / Express instance
 
@@ -277,8 +278,40 @@ app.put(
 );
 
 //Tarea 4: servicio DELETE /blog/id
-app.delete("/blog", (req, res) => {
-  res.status(200).end();
+app.delete("/blog/:id", (req, res) => {
+
+  console.log("Servicio DELETE /blog/"+req.params.id);
+
+  const client = new MongoClient(urlMongoDB); //Se conecta con MongoDB / MongoDB connection
+
+    async function run() {
+      try {
+        const db = client.db(DB_NAME);
+        const entries = db.collection(DB_COLLECTION_ENTRIES);
+
+        //Borro la entrada del blog en la base de datos
+        const result = await entries.deleteOne({_id: new ObjectId(req.params.id)}); //Se inserta en la colección / Inserting in the collection
+        if (result.acknowledged && result.deletedCount == 1) {
+          console.log(
+            SERVER_NAME +
+              `[PUT /user] Documento borrado con _id: ${req.params.id} / Document deleted with _id: ${req.params.id}`
+          );
+          
+          res.status(200).end();
+        } else if(result.acknowledged && result.deletedCount == 0) {
+          res.status(400).end();
+        } else {
+          res.status(500).end();
+        }
+      } finally {
+        await client.close();
+      }
+    }
+
+    run().catch(() => {
+      res.status(500).end();
+    });
+  
 });
 
 //Tarea 5: servicio GET /blog/entries/user
