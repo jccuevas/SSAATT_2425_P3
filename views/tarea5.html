@@ -1,0 +1,32 @@
+<html lang="es" dir="ltr">
+  <!-- Juan Carlos Cuevas Martínez
+     Curso 2024/2025 -->
+  <head>
+    <title>Práctica 1</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/mustache.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <header><h1 id="main_header">Blog de la asignatura SSAATT</h1></header>
+    <main>
+      <section id="section-5" class="hidden">
+      <ul class="mustache">
+        {{#entries}}
+        <li>{{title}} Fecha: {{date}}</li>
+        {{/entries}}
+      </ul>
+      </section>
+    </main>
+    <footer>
+      <h3>Juan Carlos Cuevas Martínez</h3>
+      <p>Servicios y aplicaciones telemáticas</p>
+      <ul>
+        <li>Grado en Ingeniería de Tecnologías de Telecomunicación.</li>
+        <li>Grado en Ingeniería Telemática</li>
+      </ul>
+      <p>Curso 2024/2025</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

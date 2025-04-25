@@ -286,7 +286,7 @@ app.delete("/blog/:id", (req, res) => {
 
     async function run() {
       try {
-        const db = client.db(DB_NAME);
+        const db = client.db("DB_NAME");
         const entries = db.collection(DB_COLLECTION_ENTRIES);
 
         //Borro la entrada del blog en la base de datos
@@ -315,10 +315,58 @@ app.delete("/blog/:id", (req, res) => {
 });
 
 //Tarea 5: servicio GET /blog/entries/user
+
+// para usar Mustache Express
+app.engine('html', mustacheExpress());
+
+//Extensión para los ficheros de plantilla
+app.set('view engine', 'html');
+
+//Definición de las rutas para las plantillas HTML
+app.set('views', './views');
+
+
+
+
 app.get("/blog/entries/:user", (req, res) => {
   // req.params.user
 
-  res.status(200).end();
+  const client = new MongoClient(urlMongoDB); //Se conecta con MongoDB / MongoDB connection
+
+    async function run() {
+      try {
+        const db = client.db(DB_NAME);
+        const entries = db.collection(DB_COLLECTION_ENTRIES);
+
+        //Borro la entrada del blog en la base de datos
+        const cursor = await entries.find({user: req.params.user }); //Se inserta en la colección / Inserting in the collection
+       
+        if(cursor!==null){
+          const data = await cursor.toArray();
+          console.log("Datos: "+JSON.stringify(data));
+          app.render("tarea5",{"entries":data},function(err,html){
+            if(err){
+              res.status(500).end();
+            }else{
+              res.status(200).send(html).end();
+            }
+          })
+          
+        }else{
+          res.status(404).end();
+        }
+
+      } finally {
+        await client.close();
+      }
+    }
+
+    run().catch(() => {
+      res.status(500).end();
+    });
+  
+  
+  
 });
 
 /******* FIN PRÁCTICA 3 **********/
