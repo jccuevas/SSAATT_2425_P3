@@ -126,6 +126,7 @@ function getPosts() {
         case 200:
           console.log(get.responseText);
           let ul = document.getElementById("entries");
+          ul.innerHTML="";
           try {
             let entries = JSON.parse(get.responseText);
             for (let post of entries) {
@@ -150,11 +151,9 @@ function getPosts() {
 function drawPost(post) {
   let li = document.createElement("li");
   li.classList.add("post");
-  li.setAttribute("id",post._id);
-  let div = document.createElement("div")
-  let button = document.createElement("button");
-  button.innerText="❌";
-  button.addEventListener("click",()=>deletePost(post._id))
+  li.setAttribute("id", post._id);
+  let div = document.createElement("div");
+
   let h4 = document.createElement("h4");
   h4.innerText = `${post.title} [${post.date}]`;
   let puser = document.createElement("p");
@@ -162,31 +161,61 @@ function drawPost(post) {
   let pcomment = document.createElement("p");
   pcomment.innerText = post.comment;
 
-  div.append(h4, pcomment, puser)
-  li.append(div,button);
+  div.append(h4, pcomment, puser);
+
+  //Se crea el botón de borrado
+  let button = document.createElement("button");
+  button.innerHTML = "🗑";
+  button.addEventListener("click", () => {
+    deleteEntry(post._id).catch((ex)=>alert("Error en la petición: "+ex))
+});
+
+  li.append(div, button);
 
   return li;
-
 }
 
-function deletePost(id){
+async function deleteEntry(id) {
+  console.log("Borrando ..." + id);
 
-  console.log("Borrando "+id);
-  const del = new XMLHttpRequest();
-  del.open("DELETE", "/blog/" + id);
-  del.onreadystatechange = function () {
-    if (del.readyState == 4) {
-      switch (del.status) {
-        case 200:
-          console.log("Borrado correctamente");
-          document.getElementById(id).remove();
-          break;
-        case 500:
-          alert("Error en el servidor al descargar la lista de entradas");
-          break;
-      }
-    }
+  const init = {
+    method: "DELETE",
   };
 
-  del.send();
+  const response = await fetch("/blog/" + id, init);
+
+  switch (response.status) {
+    case 200:
+      console.log("Entrada borrada correctamente.")
+      document.getElementById(id).remove();
+      break;
+    case 404:
+      alert("Entrada no encontrada...")
+      break;
+    case 500:
+      alert("Error en el servidor...")
+      break;
+  }
+    
+/*
+//Opción fetch() sin await
+
+  fetch("/blog/" + id, init).then((response) => {
+    switch (response.status) {
+      case 200:
+        console.log("Entrada borrada correctamente.")
+        document.getElementById(id).remove();
+        break;
+      case 404:
+        alert("Entrada no encontrada...")
+        break;
+      case 500:
+        alert("Error en el servidor...")
+        break;
+    }
+  })
+  .catch((ex)=>{
+    alert("Error en la petición: "+ex);
+  });
+  */
 }

@@ -165,7 +165,7 @@ app.put("/user", function (req, res) {
 /* [Aportado por el profesor] Servicio GET /blog para obtener todas las entradas del blog de un usuario
    [Contributed by teacher] GET /blog service to get all the blog entries of a user
  */
-app.get("/blog", async function (req, res) {
+app.get("/blog/:user", async function (req, res) {
   //Se declara la función como asíncrona para poder usar await / The function is declared as asynchronous to be able to use await
   console.log(SERVER_NAME + "[GET /blog]");
 
@@ -179,16 +179,10 @@ app.get("/blog", async function (req, res) {
     }; //Se prepara la ordenación por orden asecendente de fechas./ sorting by ascending order of dates
 
     //Se optiene un cursor con los resultados de la búsqueda / A cursor to iterate search results
-    const cursor = collection.find({}, options);
+    const cursor = collection.find({user:req.params.user}, options);
 
     if (cursor !== null) {
-      let result = [];
-      await cursor.forEach((entry) => {
-        result.push(entry);
-      }); //Se recorre el cursor y se guardan los resultados en result /the cursor is iterated to store the items in result
-      console.log(
-        SERVER_NAME + "[GET /blog] Encontrado/found:" + JSON.stringify(result)
-      );
+      let result = await cursor.toArray();
 
       res.setHeader("Content-Type", "application/json");
       res.status(200).end(JSON.stringify(result));
@@ -286,7 +280,7 @@ app.delete("/blog/:id", (req, res) => {
 
     async function run() {
       try {
-        const db = client.db("DB_NAME");
+        const db = client.db(DB_NAME);
         const entries = db.collection(DB_COLLECTION_ENTRIES);
 
         //Borro la entrada del blog en la base de datos
@@ -299,7 +293,7 @@ app.delete("/blog/:id", (req, res) => {
           
           res.status(200).end();
         } else if(result.acknowledged && result.deletedCount == 0) {
-          res.status(400).end();
+          res.status(404).end();
         } else {
           res.status(500).end();
         }
