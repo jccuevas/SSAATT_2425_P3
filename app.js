@@ -286,7 +286,7 @@ app.delete("/blog/:id", (req, res) => {
 
     async function run() {
       try {
-        const db = client.db("DB_NAME");
+        const db = client.db(DB_NAME);
         const entries = db.collection(DB_COLLECTION_ENTRIES);
 
         //Borro la entrada del blog en la base de datos
