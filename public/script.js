@@ -151,6 +151,9 @@ function getPosts() {
 function drawPost(post) {
   let li = document.createElement("li");
   li.classList.add("post");
+  // Tarea 6: añadimos el id de la base de datos
+  // al elemento li para poder identificarlo más adelante
+  // para poder borrarlo.
   li.setAttribute("id", post._id);
   let div = document.createElement("div");
 
@@ -166,10 +169,17 @@ function drawPost(post) {
   //Se crea el botón de borrado
   let button = document.createElement("button");
   button.innerHTML = "🗑";
+  // Recordad usar una función flecha para llamar a la función
+  // que se debe lanzar en e evento, porque si no, la función
+  // se ejecutará al procesar el código la primera vez y nunca
+  // más al pulsar el botón.
   button.addEventListener("click", () => {
     deleteEntry(post._id).catch((ex)=>alert("Error en la petición: "+ex))
+    // Le hemos añadido el catch() para detectar los errores de red
+    // que se puedan dar al hacer la petición con fecth.
 });
 
+  // Se añaden los datos de la entrada y el botón al elemento li.
   li.append(div, button);
 
   return li;
@@ -182,12 +192,18 @@ async function deleteEntry(id) {
     method: "DELETE",
   };
 
+  //Ejemplo con await (la función se ha declarado asíncrona con async)
   const response = await fetch("/blog/" + id, init);
 
+  // Antes de procesar los datos o hacer nada, debemos
+  // comprobar que la petición devuelve un código de estado
+  // válido para nuestra aplicación, por ejemplo un 200.
   switch (response.status) {
     case 200:
-      console.log("Entrada borrada correctamente.")
-      document.getElementById(id).remove();
+      console.log("Entrada borrada correctamente.");
+      // En este caso no se devuelven datos y solo borrarmos
+      // el elemento li correspondiente seleccionándolo por su id
+      document.getElementById(id).remove();// Borra el elemento del DOM
       break;
     case 404:
       alert("Entrada no encontrada...")
@@ -198,12 +214,15 @@ async function deleteEntry(id) {
   }
     
 /*
-//Opción fetch() sin await
+// Opción fetch() sin await, la función no tiene que ser
+// declarada asíncrona con async 
 
   fetch("/blog/" + id, init).then((response) => {
     switch (response.status) {
       case 200:
         console.log("Entrada borrada correctamente.")
+        // En este caso no se devuelven datos y solo borrarmos
+        // el elemento li correspondiente seleccionándolo por su id
         document.getElementById(id).remove();
         break;
       case 404:
