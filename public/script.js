@@ -138,6 +138,10 @@ function doLoginFetch(event) {
     .catch((ex) => alert("Error en la conexión: " + ex));
 }
 
+/**
+ * Función con XMLHttpRequest para una nueva entrada en el blog
+ * @param {*} event
+ */
 function newBlogPost(event) {
   event.preventDefault();
 
@@ -169,6 +173,44 @@ function newBlogPost(event) {
 
   blog.setRequestHeader("Content-Type", "application/json");
   blog.send(JSON.stringify(datos));
+}
+
+/**
+ * Esta función es la versión con fetch() correspondiente a la práctica 2 para
+ * enviar una nueva entrada al blog. También se emplea await para esperar la promesa.
+ * @param {*} event
+ */
+async function newBlogPostFetch(event) {
+  event.preventDefault();
+
+  let datos = {
+    user: current_user,
+    title: document.forms.post.title.value,
+    date: document.forms.post.date.value,
+    comment: document.forms.post.comment.value,
+  };
+
+  const init = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(datos),
+  };
+
+  const response = await fetch("/blog", init);
+
+  switch (response.status) {
+    case 201:
+      console.log("Entrada creada...");
+      break;
+    case 400:
+      alert("Error en el formato.");
+      break;
+    case 500:
+      alert("Error en el servidor");
+      break;
+  }
 }
 
 function getPosts() {
