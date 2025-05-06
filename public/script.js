@@ -112,9 +112,9 @@ async function doLoginFetch(event) {
     body: JSON.stringify(datos), // Se envían los datos en formato JSON
   };
 
- // let response = await fetch("/login",init); // Ejemplo de uso de fetch con await
- // let datos = await response.json(); // Esto sería solo en el caso de que se recibieran datos, no es el caso de login
- // Nota: para usar await hay que declarar la función asíncrona con async
+  // let response = await fetch("/login",init); // Ejemplo de uso de fetch con await
+  // let datos = await response.json(); // Esto sería solo en el caso de que se recibieran datos, no es el caso de login
+  // Nota: para usar await hay que declarar la función asíncrona con async
   fetch("/login", init)
     .then((response) => {
       switch (response.status) {
@@ -214,6 +214,38 @@ async function newBlogPostFetch(event) {
       alert("Error en el servidor");
       break;
   }
+}
+
+async function getPostsFetch() {
+try{
+  const response = await fetch("http://192.168.12.12/blog/" + current_user);
+  if(response.ok){
+    const entries = await response.json();
+    let ul = document.getElementById("entries");
+        ul.innerHTML = "";
+        for (let post of entries) {
+          ul.appendChild(drawPost(post));
+        }
+  }
+}catch(ex){
+  console.error("Error en getPost:"+ex);
+}
+ /*
+  fetch("/blog/" + current_user).then((response) => {
+    if (response.ok ) {
+      //Puedo obtener los datos
+      response.json().then((entries) => {
+        let ul = document.getElementById("entries");
+        ul.innerHTML = "";
+        for (let post of entries) {
+          ul.appendChild(drawPost(post));
+        }
+      });
+    } else {
+      alert("Error en el servidor al descargar la lista de entradas");
+    }
+  });
+  */
 }
 
 function getPosts() {
