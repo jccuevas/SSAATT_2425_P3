@@ -90,7 +90,7 @@ function doLogin(event) {
  * Función login con fetch() y promesas.
  * @param {*} event
  */
-function doLoginFetch(event) {
+async function doLoginFetch(event) {
   event.preventDefault();
 
   console.log("doLoginFetch()");
@@ -112,6 +112,9 @@ function doLoginFetch(event) {
     body: JSON.stringify(datos), // Se envían los datos en formato JSON
   };
 
+ // let response = await fetch("/login",init); // Ejemplo de uso de fetch con await
+ // let datos = await response.json(); // Esto sería solo en el caso de que se recibieran datos, no es el caso de login
+ // Nota: para usar await hay que declarar la función asíncrona con async
   fetch("/login", init)
     .then((response) => {
       switch (response.status) {
