@@ -27,7 +27,10 @@ function switchMenus() {
   document.getElementById("menu-3").classList.remove("hidden");
   document.getElementById("menu-4").classList.remove("hidden");
 }
-
+/**
+ * Esta función es la versión con XMLHttpRequest correspondiente a la práctica 2
+ * @param {*} event
+ */
 function doLogin(event) {
   event.preventDefault();
 
@@ -83,6 +86,57 @@ function doLogin(event) {
     
 */
 }
+/**
+ * Función login con fetch() y promesas.
+ * @param {*} event
+ */
+function doLoginFetch(event) {
+  event.preventDefault();
+
+  console.log("doLoginFetch()");
+
+  let user = document.getElementById("inicio_user").value; //Valor del campo
+  let password = document.forms.inicio.password.value;
+
+  console.log("Leídos: " + user + " y " + password);
+  let datos = {
+    user: user,
+    password: password,
+  };
+
+  const init = {
+    method: "POST", //Se indica el método HTTP a usar
+    headers: {
+      "Content-Type": "application/json",
+    }, // Se indica el tipo de contenido que se envía al servidor
+    body: JSON.stringify(datos), // Se envían los datos en formato JSON
+  };
+
+  fetch("/login", init)
+    .then((response) => {
+      switch (response.status) {
+        case 200:
+          console.log("Autenticación correcta...");
+          //Hay que hacer más cosas
+          //1- Ocultar la sección Inicio
+          //2- Ocultar los botones del menú de navegación "Inicio" y "Registro"
+          //3- Mostrar los botones del menú de navegación "Listar entrada" y "Nueva entrada"
+          //4- Mostrar la sección "Entradas del blog"
+          current_user = user;
+          showSection(3);
+          switchMenus();
+          break;
+        case 401:
+          current_user = "";
+          alert("Error en la autenticación.");
+          break;
+        case 500:
+          alert("Error en el servidor");
+          break;
+      }
+    })
+    .catch((ex) => alert("Error en la conexión: " + ex));
+}
 
 function newBlogPost(event) {
   event.preventDefault();
@@ -126,7 +180,7 @@ function getPosts() {
         case 200:
           console.log(get.responseText);
           let ul = document.getElementById("entries");
-          ul.innerHTML="";
+          ul.innerHTML = "";
           try {
             let entries = JSON.parse(get.responseText);
             for (let post of entries) {
@@ -174,10 +228,10 @@ function drawPost(post) {
   // se ejecutará al procesar el código la primera vez y nunca
   // más al pulsar el botón.
   button.addEventListener("click", () => {
-    deleteEntry(post._id).catch((ex)=>alert("Error en la petición: "+ex))
+    deleteEntry(post._id).catch((ex) => alert("Error en la petición: " + ex));
     // Le hemos añadido el catch() para detectar los errores de red
     // que se puedan dar al hacer la petición con fecth.
-});
+  });
 
   // Se añaden los datos de la entrada y el botón al elemento li.
   li.append(div, button);
@@ -203,17 +257,17 @@ async function deleteEntry(id) {
       console.log("Entrada borrada correctamente.");
       // En este caso no se devuelven datos y solo borrarmos
       // el elemento li correspondiente seleccionándolo por su id
-      document.getElementById(id).remove();// Borra el elemento del DOM
+      document.getElementById(id).remove(); // Borra el elemento del DOM
       break;
     case 404:
-      alert("Entrada no encontrada...")
+      alert("Entrada no encontrada...");
       break;
     case 500:
-      alert("Error en el servidor...")
+      alert("Error en el servidor...");
       break;
   }
-    
-/*
+
+  /*
 // Opción fetch() sin await, la función no tiene que ser
 // declarada asíncrona con async 
 
