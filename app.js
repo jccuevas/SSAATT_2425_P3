@@ -206,6 +206,17 @@ function checkEntrie(req, res, next) {
     res.status(400).end("data not found"); //Petición sin datos /emty request
     return;
   } else {
+
+    for (let prop of ENTRY_FORMAT){
+      if(req.body[prop]===undefined){
+        res.status(400).end();
+        return;
+      }
+    }
+
+
+/*
+
     if (req.body.user === undefined) {
       res.status(400).end("data not found"); //Petición sin datos /emty request
       return;
@@ -219,7 +230,7 @@ function checkEntrie(req, res, next) {
       res.status(400).end("data not found"); //Petición sin datos /emty request
       return;
     }
-
+*/
     for (let p in req.body) {
       console.log("Propiedad de entrada: ", p);
       if (!ENTRY_FORMAT.includes(p)) {
