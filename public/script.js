@@ -200,37 +200,40 @@ async function newBlogPostFetch(event) {
     },
     body: JSON.stringify(datos),
   };
+  try {
+    const response = await fetch("/blog", init);
 
-  const response = await fetch("/blog", init);
-
-  switch (response.status) {
-    case 201:
-      console.log("Entrada creada...");
-      break;
-    case 400:
-      alert("Error en el formato.");
-      break;
-    case 500:
-      alert("Error en el servidor");
-      break;
+    switch (response.status) {
+      case 201:
+        console.log("Entrada creada...");
+        break;
+      case 400:
+        alert("Error en el formato.");
+        break;
+      case 500:
+        alert("Error en el servidor");
+        break;
+    }
+  } catch (ex) {
+    console.error("Error al crear la entrada: " + ex);
   }
 }
 
 async function getPostsFetch() {
-try{
-  const response = await fetch("http://192.168.12.12/blog/" + current_user);
-  if(response.ok){
-    const entries = await response.json();
-    let ul = document.getElementById("entries");
-        ul.innerHTML = "";
-        for (let post of entries) {
-          ul.appendChild(drawPost(post));
-        }
+  try {
+    const response = await fetch("/blog/" + current_user);
+    if (response.ok) {
+      const entries = await response.json();
+      let ul = document.getElementById("entries");
+      ul.innerHTML = "";
+      for (let post of entries) {
+        ul.appendChild(drawPost(post));
+      }
+    }
+  } catch (ex) {
+    console.error("Error en getPost:" + ex);
   }
-}catch(ex){
-  console.error("Error en getPost:"+ex);
-}
- /*
+  /*
   fetch("/blog/" + current_user).then((response) => {
     if (response.ok ) {
       //Puedo obtener los datos
